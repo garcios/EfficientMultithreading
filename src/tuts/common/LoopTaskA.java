@@ -20,6 +20,7 @@ public class LoopTaskA implements Runnable{
 				TimeUnit.MILLISECONDS.sleep((long) (Math.random() * 1000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				break;
 			}
 			
 		}

@@ -3,20 +3,19 @@ package tuts.common;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-public class FactorialTaskA implements Callable<Long>{
+public class FactorialTaskB implements Callable<Long>{
 
 	private static int count=0;
 	private int instanceNumber;
 	private String taskId;
 	
-	private volatile boolean shutdown = false;
 	
 	private long a;
 	private long sleepTime;
 	private long factorial;
 	
 	@Override
-	public Long call() throws Exception {
+	public Long call()  {
 		
 		String currentThreadName = Thread.currentThread().getName();
 		
@@ -31,14 +30,14 @@ public class FactorialTaskA implements Callable<Long>{
 			System.out.println("[" + currentThreadName +  "] <" + taskId + ">Iteration - " + i
 					+ ". Intermediate Result = " + factorial);
 			
-			TimeUnit.MILLISECONDS.sleep(sleepTime);
-			
-			synchronized(this){
-				if (shutdown){
-					factorial = -1L;
-					break;
-				}
+			try {
+				TimeUnit.MILLISECONDS.sleep(sleepTime);
+			} catch (InterruptedException e) {
+				System.out.println("******* [" + currentThreadName + "] < " + taskId + "> Sleep Interrupted. Cancelling...");
+				break;
 			}
+			
+			
 			
 		}
 
@@ -49,24 +48,15 @@ public class FactorialTaskA implements Callable<Long>{
 	
 	}
 	
-	/***
-	 * 
-	 */
-	public void cancel(){
-		System.out.println("******* [" + Thread.currentThread().getName() + "] < " + taskId + "> SHUTTING DOWN *******");
-		
-		synchronized(this){
-			this.shutdown = true;
-		}
-	}
+
 	
 	
-	public FactorialTaskA(long a, long sleepTime){
+	public FactorialTaskB(long a, long sleepTime){
 		this.a=a;
 		this.sleepTime=sleepTime;
 		
 		this.instanceNumber = ++count;
-		this.taskId = "FactorialTaskA" + instanceNumber;
+		this.taskId = "FactorialTaskB" + instanceNumber;
 	}
 
 }

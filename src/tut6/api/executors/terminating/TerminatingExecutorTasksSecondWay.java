@@ -6,8 +6,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import tuts.common.CalculationTaskC;
-import tuts.common.FactorialTaskA;
-import tuts.common.LoopTaskE;
 import tuts.common.LoopTaskF;
 import tuts.common.NamedThreadFactory;
 
